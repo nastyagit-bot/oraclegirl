@@ -103,7 +103,21 @@ const GRADIENT_CARDS = [
 ];
 
 const MY_EVENTS_DATA = [
-  { id: 1, title: "Life in the heart", type: "Reboot Group", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 10, 2026", purificationCount: 2, archived: false },
+  {
+    id: 1,
+    title: "Life in the heart",
+    type: "Reboot Group",
+    recurring: true,
+    pct: 15,
+    duration: "20 min",
+    gradient: CARD_GRADIENT,
+    date: "Mar 10, 2026",
+    archived: false,
+    purificationEntries: [
+      { id: 101, name: "My mother", focus: "healing" },
+      { id: 102, name: "Work stress", focus: "clarity and peace" },
+    ],
+  },
 ];
 
 const SUBSCRIPTIONS_DATA = [
@@ -734,8 +748,23 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
   const active = myEvents.filter(e=>!e.archived);
   const archiveEvent = id => setMyEvents(myEvents.map(e=>e.id===id?{...e,archived:true}:e));
 
+  const [openArchiveId, setOpenArchiveId] = useState(null);
+  const [openIncludeId, setOpenIncludeId] = useState(null);
+  const [archiveConfirmId, setArchiveConfirmId] = useState(null);
+
+  const excludePurificationEntry = (eventId, entryId) => {
+    setMyEvents(myEvents.map(e => {
+      if (e.id !== eventId) return e;
+      const purificationEntries = (e.purificationEntries || []).filter(p => p.id !== entryId);
+      return { ...e, purificationEntries };
+    }));
+  };
+
   return (
-    <div style={{ background:C.grayBg, minHeight:"100vh" }}>
+    <div
+      style={{ background:C.grayBg, minHeight:"100vh" }}
+      onClick={() => { setOpenArchiveId(null); setOpenIncludeId(null); }}
+    >
       <div style={{ maxWidth:800, margin:"0 auto", padding:"40px 24px 64px" }}>
         <p style={{ fontSize:14, color:C.pink, fontWeight:500, marginBottom:2 }}>Hi {USER_NAME}</p>
         <h1 style={{ fontSize:28, fontWeight:800, marginBottom:8 }}>
@@ -802,34 +831,215 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
           </div>
         </div>
 
-        {active.map(ev=>(
-          <div key={ev.id} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, overflow:"hidden", marginBottom:16 }}>
-            <div style={{ position:"relative", height:130, background:ev.gradient||GRADIENT_CARDS[0].gradient }}>
-              <div style={{ position:"absolute", top:12, left:12, display:"flex", gap:8 }}>
-                <span style={{ background:C.orange, color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Reboot Group</span>
-                {ev.recurring && <span style={{ background:"rgba(0,0,0,.28)", color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Recurring</span>}
-              </div>
-              <button style={{ position:"absolute", top:12, right:12, width:28, height:28, borderRadius:"50%", background:"rgba(0,0,0,.35)", color:"#fff", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14 }}>···</button>
-              <div style={{ position:"absolute", bottom:0, left:0, right:0 }}>
-                <div style={{ flex:1, height:3, background:"rgba(255,255,255,.25)" }}><div style={{ width:`${ev.pct}%`, height:"100%", background:"#fff" }}/></div>
-              </div>
-              <div style={{ position:"absolute", bottom:6, left:12, fontSize:12, color:"#fff", fontWeight:600 }}>{ev.pct}% completed</div>
-            </div>
-            <div style={{ padding:"14px 16px" }}>
-              <div style={{ fontWeight:700, fontSize:16, color:"#111827", marginBottom:2 }}>{ev.title}</div>
-              <div style={{ fontSize:13, color:C.grayText, marginBottom:14 }}>{ev.duration}</div>
-              <div style={{ display:"flex", gap:10, alignItems:"center" }}>
-                <button style={{ background:C.magenta, color:"#fff", borderRadius:30, padding:"10px 22px", fontSize:14, fontWeight:600, display:"flex", alignItems:"center", gap:6 }} onClick={()=>{ setWatchEvent({...ev, image:EVENTS[0].image, date:ev.date, description:EVENTS[0].fullDescription}); onNav("watch"); }}>
-                  🎧 Listen now
+        {active.map(ev => {
+          const purificationEntries = ev.purificationEntries || [];
+          const purificationCount = purificationEntries.length;
+
+          return (
+            <div key={ev.id} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, overflow:"hidden", marginBottom:16, position:"relative" }}>
+              <div style={{ position:"relative", height:130, background:ev.gradient||GRADIENT_CARDS[0].gradient }}>
+                <div style={{ position:"absolute", top:12, left:12, display:"flex", gap:8 }}>
+                  <span style={{ background:C.orange, color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Reboot Group</span>
+                  {ev.recurring && <span style={{ background:"rgba(0,0,0,.28)", color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Recurring</span>}
+                </div>
+
+                <button
+                  style={{
+                    position:"absolute",
+                    top:12,
+                    right:12,
+                    width:28,
+                    height:28,
+                    borderRadius:"50%",
+                    background:"rgba(255,255,255,.18)",
+                    border:`1px solid rgba(255,255,255,.28)`,
+                    color:"#fff",
+                    display:"flex",
+                    alignItems:"center",
+                    justifyContent:"center",
+                    fontSize:14,
+                  }}
+                  onClick={e => {
+                    e.stopPropagation();
+                    setOpenIncludeId(null);
+                    setOpenArchiveId(openArchiveId === ev.id ? null : ev.id);
+                  }}
+                >
+                  ···
                 </button>
-                <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:30, padding:"9px 16px", fontSize:14, color:"#374151", display:"flex", alignItems:"center", gap:4 }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                  + {ev.purificationCount}
-                </button>
+
+                {openArchiveId === ev.id && (
+                  <div
+                    style={{
+                      position:"absolute",
+                      top:48,
+                      right:12,
+                      width:280,
+                      background:"#fff",
+                      border:`1px solid ${C.grayBorder}`,
+                      borderRadius:12,
+                      boxShadow:"0 20px 60px rgba(0,0,0,.16)",
+                      zIndex:200,
+                    }}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <div style={{ padding:"14px 16px" }}>
+                      <button
+                        style={{ display:"flex", alignItems:"center", gap:8, fontWeight:700, fontSize:14, color:"#374151", cursor:"pointer", width:"100%", justifyContent:"flex-start", marginBottom:10 }}
+                        onClick={() => { setArchiveConfirmId(ev.id); setOpenArchiveId(null); }}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                          <path d="M10 11v6"></path>
+                          <path d="M14 11v6"></path>
+                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                        </svg>
+                        Archive event
+                      </button>
+                      <p style={{ fontSize:13, color:C.grayText, lineHeight:1.6, marginBottom:0 }}>
+                        To cancel or update your subscription, go to{" "}
+                        <span
+                          style={{ color:C.navy, fontWeight:500, cursor:"pointer" }}
+                          onClick={() => { setOpenArchiveId(null); onNav("subscriptions"); }}
+                        >
+                          My Subscription
+                        </span>{" "}
+                        from your Personal account menu.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <div style={{ position:"absolute", bottom:0, left:0, right:0 }}>
+                  <div style={{ flex:1, height:3, background:"rgba(255,255,255,.25)" }}>
+                    <div style={{ width:`${ev.pct}%`, height:"100%", background:"#fff" }} />
+                  </div>
+                </div>
+                <div style={{ position:"absolute", bottom:6, left:12, fontSize:12, color:"#fff", fontWeight:600 }}>
+                  {ev.pct}% completed
+                </div>
               </div>
+
+              <div style={{ padding:"14px 16px" }}>
+                <div style={{ fontWeight:700, fontSize:16, color:"#111827", marginBottom:2 }}>{ev.title}</div>
+                <div style={{ fontSize:13, color:C.grayText, marginBottom:14 }}>{ev.duration}</div>
+
+                <div style={{ display:"flex", gap:14, alignItems:"center" }}>
+                  <button
+                    style={{ background:C.magenta, color:"#fff", borderRadius:30, padding:"10px 22px", fontSize:14, fontWeight:600, flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}
+                    onClick={()=>{ setWatchEvent({...ev, image:EVENTS[0].image, date:ev.date, description:EVENTS[0].fullDescription}); onNav("watch"); }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M11 5l-6 6h6v8l14-14V5z" opacity="0.0" />
+                      <path d="M10 8H4l6 6v2l14-14-14 14v-8z" opacity="0.0" />
+                      <path d="M7 17V7l10-2v14L7 17z" />
+                    </svg>
+                    Listen now
+                  </button>
+
+                  <button
+                    style={{
+                      width:46,
+                      height:46,
+                      borderRadius:"50%",
+                      border:`1.5px dashed ${C.grayBorder}`,
+                      background:"#fff",
+                      color:C.navy,
+                      display:"flex",
+                      alignItems:"center",
+                      justifyContent:"center",
+                      fontSize:13,
+                      fontWeight:700,
+                      flexShrink:0,
+                    }}
+                    onClick={e => {
+                      e.stopPropagation();
+                      setOpenArchiveId(null);
+                      setOpenIncludeId(openIncludeId === ev.id ? null : ev.id);
+                    }}
+                  >
+                    + {purificationCount}
+                  </button>
+                </div>
+              </div>
+
+              {openIncludeId === ev.id && (
+                <div
+                  style={{
+                    position:"absolute",
+                    right:16,
+                    top:156,
+                    width:300,
+                    background:"#fff",
+                    border:`1px solid ${C.grayBorder}`,
+                    borderRadius:12,
+                    boxShadow:"0 20px 60px rgba(0,0,0,.16)",
+                    zIndex:220,
+                  }}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <div style={{ padding:"14px 16px" }}>
+                    <div style={{ fontSize:14, color:"#374151", fontWeight:700, marginBottom:10 }}>
+                      Included in purification ({purificationCount})
+                    </div>
+                    <div style={{ fontSize:13, fontWeight:700, color:"#374151", marginBottom:10 }}>Myself</div>
+
+                    {purificationEntries.length === 0 ? (
+                      <div style={{ fontSize:13, color:C.grayText }}>Nothing included yet.</div>
+                    ) : (
+                      purificationEntries.map(entry => (
+                        <div
+                          key={entry.id}
+                          style={{
+                            background:"#F9FAFB",
+                            border:`1px solid ${C.grayBorder}`,
+                            borderRadius:10,
+                            padding:"10px 12px",
+                            display:"flex",
+                            alignItems:"flex-start",
+                            justifyContent:"space-between",
+                            gap:10,
+                            marginBottom:10,
+                          }}
+                        >
+                          <div>
+                            <div style={{ fontWeight:600, fontSize:13, color:"#111827", marginBottom:2 }}>{entry.name}</div>
+                            <div style={{ fontSize:12, color:C.grayText, lineHeight:1.3 }}>Focus: {entry.focus}</div>
+                          </div>
+                          <button
+                            style={{
+                              width:26,
+                              height:26,
+                              borderRadius:"50%",
+                              border:`1px solid ${C.grayBorder}`,
+                              color:C.grayText,
+                              background:"#fff",
+                              fontSize:14,
+                              display:"flex",
+                              alignItems:"center",
+                              justifyContent:"center",
+                              cursor:"pointer",
+                              flexShrink:0,
+                            }}
+                            aria-label={`Exclude ${entry.name}`}
+                            onClick={e => {
+                              e.stopPropagation();
+                              excludePurificationEntry(ev.id, entry.id);
+                              setOpenIncludeId(null);
+                            }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         {active.length===0 && (
           <div style={{ textAlign:"center", padding:"48px 0", color:C.grayText }}>
@@ -838,20 +1048,62 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
           </div>
         )}
 
-        <div style={{ marginTop:28, background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, padding:"16px 20px" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:8, fontWeight:600, fontSize:14, marginBottom:6 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg>
-            Archive event
-          </div>
-          <p style={{ fontSize:13, color:C.grayText, lineHeight:1.6 }}>
-            To cancel or update your subscription, go to{" "}
-            <span style={{ color:C.navy, fontWeight:500, cursor:"pointer" }} onClick={()=>onNav("subscriptions")}>My Subscription</span>{" "}
-            from your Personal account menu.
-          </p>
-        </div>
         <div style={{ marginTop:14, textAlign:"center" }}>
           <span style={{ fontSize:14, color:C.navy, cursor:"pointer" }} onClick={()=>onNav("archived")}>View archived events →</span>
         </div>
+
+        {archiveConfirmId !== null && (
+          <div
+            style={{
+              position:"fixed",
+              inset:0,
+              background:"rgba(0,0,0,.35)",
+              display:"flex",
+              alignItems:"center",
+              justifyContent:"center",
+              zIndex:999,
+            }}
+            onClick={() => setArchiveConfirmId(null)}
+          >
+            <div
+              style={{
+                width:"100%",
+                maxWidth:480,
+                background:"#fff",
+                borderRadius:16,
+                border:`1px solid ${C.grayBorder}`,
+                padding:"22px 22px 18px",
+                boxShadow:"0 30px 80px rgba(0,0,0,.22)",
+              }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:10 }}>
+                <div style={{ width:44, height:44, borderRadius:12, background:C.pinkBg, border:`1px solid ${C.pinkBorder}`, display:"flex", alignItems:"center", justifyContent:"center", color:C.magenta, fontWeight:800 }}>
+                  ⚠️
+                </div>
+                <div>
+                  <div style={{ fontWeight:800, fontSize:18, color:C.navy, marginBottom:2 }}>Archive event?</div>
+                  <div style={{ fontSize:13, color:C.grayText }}>You can restore it later from “Archived events”.</div>
+                </div>
+              </div>
+
+              <div style={{ display:"flex", gap:12, justifyContent:"flex-end", marginTop:18 }}>
+                <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:30, padding:"11px 18px", fontSize:14, fontWeight:600, color:"#374151" }} onClick={() => setArchiveConfirmId(null)}>
+                  Cancel
+                </button>
+                <button
+                  style={{ border:`1.5px solid ${C.redText}`, borderRadius:30, padding:"11px 18px", fontSize:14, fontWeight:700, color:"#fff", background:C.redText }}
+                  onClick={() => {
+                    archiveEvent(archiveConfirmId);
+                    setArchiveConfirmId(null);
+                  }}
+                >
+                  Archive
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
