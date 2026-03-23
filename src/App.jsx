@@ -22,7 +22,7 @@ const EVENTS = [
     tags: ["Starts in 3 days", "All day purification"],
     included: ["All day purification", "Audio recording (20 min, MP3)", "Transcript (PDF)"],
     categories: ["Body & self healing", "Family issues", "Community"],
-    eventDetails: "Two purification sessions take place each week on the unseen level. It's an all-day purification event. First, sign yourself up – this is essential for receiving your personal purification.\nAfter you're signed up, you can add your Specific Focus in your Donor Account for deeper integration. You can then add someone else to the purification with their own Specific Focus, or gift this event to someone if you wish.",
+    eventDetails: "Two purification sessions take place each week on the unseen level. It's an all-day purification event. First, sign yourself up – this is essential for receiving your personal purification.\nAfter you're signed up, you can add your Specific Focus in your Personal account for deeper integration. You can then add someone else to the purification with their own Specific Focus, or gift this event to someone if you wish.",
     whatToExpect: [
       "The purification works on an unseen level, no matter what you're doing.",
       "Focused purification reaches the area of greatest need for you or those you've signed up for.",
@@ -683,7 +683,7 @@ function ConfirmationScreen({ event, onNav }) {
         <p style={{ fontSize:15, color:"#374151", marginBottom:18 }}>You will be sent an event email with a link to any event materials available.</p>
         <p style={{ fontSize:15, fontWeight:500, marginBottom:18 }}>
           You can view and manage this event in{" "}
-          <span style={{ color:C.magenta, cursor:"pointer", fontWeight:600 }} onClick={()=>onNav("account")}>Donor account</span>
+          <span style={{ color:C.magenta, cursor:"pointer", fontWeight:600 }} onClick={()=>onNav("account")}>Personal account</span>
         </p>
         {event && (
           <div style={{ border:`1px solid ${C.grayBorder}`, borderRadius:12, padding:"16px 20px", marginBottom:36, display:"flex", gap:16, alignItems:"flex-start" }}>
