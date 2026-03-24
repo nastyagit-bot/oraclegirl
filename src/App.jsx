@@ -96,10 +96,10 @@ const MORE_EVENTS = [
 ];
 
 const GRADIENT_CARDS = [
-  { id: 1, title: "Life in the heart",                     pct: 15, duration: "20 min", gradient: CARD_GRADIENT },
-  { id: 2, title: "Reboot Discovery 3: Images of honesty", pct: 85, duration: "20 min", gradient: CARD_GRADIENT },
-  { id: 3, title: "Apr 2024 SIR8: Initiation of natur",    pct: 75, duration: "95 min", gradient: CARD_GRADIENT },
-  { id: 4, title: "Apr 2024 SIR8: Initiation of natur",    pct: 75, duration: "95 min", gradient: CARD_GRADIENT },
+  { id: 1, title: "Life in the heart",                     pct: 15, duration: "20 min", gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)" },
+  { id: 2, title: "Reboot Discovery 3: Images of honesty", pct: 85, duration: "20 min", gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)" },
+  { id: 3, title: "Apr 2024 SIR8: Initiation of natur",    pct: 75, duration: "95 min", gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)" },
+  { id: 4, title: "Apr 2024 SIR8: Initiation of natur",    pct: 75, duration: "95 min", gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)" },
 ];
 
 const MY_EVENTS_DATA = [
@@ -110,7 +110,7 @@ const MY_EVENTS_DATA = [
     recurring: true,
     pct: 15,
     duration: "20 min",
-    gradient: CARD_GRADIENT,
+    gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)",
     date: "Mar 10, 2026",
     archived: false,
     purificationEntries: [
@@ -836,8 +836,8 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
           const purificationCount = purificationEntries.length;
 
           return (
-            <div key={ev.id} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, overflow:"hidden", marginBottom:16, position:"relative" }}>
-              <div style={{ position:"relative", height:130, background:ev.gradient||GRADIENT_CARDS[0].gradient }}>
+            <div key={ev.id} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, overflow:"visible", marginBottom:16, position:"relative" }}>
+              <div style={{ position:"relative", height:130, background:ev.gradient||GRADIENT_CARDS[0].gradient, borderTopLeftRadius:12, borderTopRightRadius:12, overflow:"hidden" }}>
                 <div style={{ position:"absolute", top:12, left:12, display:"flex", gap:8 }}>
                   <span style={{ background:C.orange, color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Reboot Group</span>
                   {ev.recurring && <span style={{ background:"rgba(0,0,0,.28)", color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Recurring</span>}
@@ -1048,10 +1048,6 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
           </div>
         )}
 
-        <div style={{ marginTop:14, textAlign:"center" }}>
-          <span style={{ fontSize:14, color:C.navy, cursor:"pointer" }} onClick={()=>onNav("archived")}>View archived events →</span>
-        </div>
-
         {archiveConfirmId !== null && (
           <div
             style={{
@@ -1083,7 +1079,7 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
                 </div>
                 <div>
                   <div style={{ fontWeight:800, fontSize:18, color:C.navy, marginBottom:2 }}>Archive event?</div>
-                  <div style={{ fontSize:13, color:C.grayText }}>You can restore it later from “Archived events”.</div>
+                  <div style={{ fontSize:13, color:C.grayText }}>This will remove the event from your purification space.</div>
                 </div>
               </div>
 
@@ -1168,7 +1164,7 @@ function ArchivedScreen({ myEvents, setMyEvents, onNav }) {
 }
 
 /* ── SUBSCRIPTIONS ── */
-function SubscriptionsScreen({ onNav }) {
+function SubscriptionsScreen() {
   const [subs, setSubs] = useState(SUBSCRIPTIONS_DATA);
   const [cancelId, setCancelId] = useState(null);
   const togglePause = id => setSubs(subs.map(s=>s.id===id?{...s,status:s.status==="active"?"paused":"active"}:s));
