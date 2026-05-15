@@ -790,7 +790,7 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 22 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 32, alignItems: "start" }}>
           {active.map((ev) => (
             <AccountEventCard
               key={ev.id}

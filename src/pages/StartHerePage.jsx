@@ -79,17 +79,17 @@ export default function StartHerePage({ onNav, setSelectedEvent, events }) {
   return (
     <div>
       {/* Hero */}
-      <section style={{ position: "relative", minHeight: 420, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+      <section style={{ position: "relative", minHeight: "min(52vh, 480px)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
         <img
           src="/images/start-here-hero.png"
           alt=""
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 40%" }}
         />
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 55%, rgba(255,255,255,0.95) 100%)",
+            background: "linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.35) 50%, rgba(255,255,255,0.92) 100%)",
           }}
         />
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", color: "#fff", padding: "80px 24px 100px", maxWidth: 640 }}>

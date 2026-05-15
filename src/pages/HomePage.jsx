@@ -17,18 +17,18 @@ export default function HomePage({ onNav, setSelectedEvent, events }) {
 
   return (
     <div>
-      <section style={{ position: "relative", minHeight: "min(92vh, 640px)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+      <section style={{ position: "relative", minHeight: "min(88vh, 720px)", display: "flex", alignItems: "flex-end", justifyContent: "center", overflow: "hidden" }}>
         <img
           src="/images/home-hero.png"
           alt=""
-          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }}
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 22%" }}
         />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.45) 100%)" }} />
-        <div style={{ position: "relative", zIndex: 1, textAlign: "center", color: "#fff", padding: "48px 24px", maxWidth: 720 }}>
-          <h1 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, lineHeight: 1.15, marginBottom: 20, letterSpacing: "-0.02em", textShadow: "0 2px 24px rgba(0,0,0,0.3)" }}>
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.08) 45%, rgba(0,0,0,0.55) 72%, rgba(0,0,0,0.72) 100%)" }} />
+        <div style={{ position: "relative", zIndex: 1, width: "100%", textAlign: "center", color: "#fff", padding: "0 24px clamp(48px, 8vh, 72px)", maxWidth: 760, margin: "0 auto" }}>
+          <h1 style={{ fontSize: "clamp(30px, 4.8vw, 50px)", fontWeight: 500, lineHeight: 1.12, marginBottom: 16, letterSpacing: "-0.02em", textShadow: "0 2px 28px rgba(0,0,0,0.45)" }}>
             Embodying more<br />love on this planet
           </h1>
-          <p style={{ fontSize: "clamp(16px, 2.5vw, 18px)", lineHeight: 1.6, marginBottom: 36, fontWeight: 400, textShadow: "0 1px 12px rgba(0,0,0,0.25)" }}>
+          <p style={{ fontSize: "clamp(15px, 2.2vw, 18px)", lineHeight: 1.55, marginBottom: 28, fontWeight: 400, textShadow: "0 1px 16px rgba(0,0,0,0.4)", maxWidth: 560, marginLeft: "auto", marginRight: "auto" }}>
             The future is positive. Dream. Rebuild your societies.<br />Purify yourself and all beings.
           </p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center", alignItems: "center" }}>
