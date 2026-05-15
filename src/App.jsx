@@ -158,13 +158,8 @@ function Nav({ onNav, menuOpen, setMenuOpen }) {
   return (
     <nav style={{ background:"#fff", borderBottom:`1px solid ${C.grayBorder}`, position:"sticky", top:0, zIndex:200 }}>
       <div style={{ maxWidth:1120, margin:"0 auto", padding:"0 24px", height:60, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-        <div style={{ display:"flex", alignItems:"center", gap:8, cursor:"pointer" }} onClick={()=>onNav("home")}>
-          <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-            <circle cx="15" cy="15" r="14" stroke="#111827" strokeWidth="1.8"/>
-            <circle cx="15" cy="15" r="6.5" fill="#111827"/>
-            <circle cx="15" cy="15" r="2.8" fill="#fff"/>
-          </svg>
-          <span style={{ fontWeight:700, fontSize:17, color:"#111827", letterSpacing:"-0.3px" }}>oracle girl</span>
+        <div style={{ display:"flex", alignItems:"center", cursor:"pointer" }} onClick={()=>onNav("home")}>
+          <span style={{ fontWeight:500, fontSize:17, color:"#111827", letterSpacing:"-0.02em" }}>oracle girl</span>
         </div>
         <div style={{ display:"flex", alignItems:"center", gap:32 }}>
           <span style={{ fontSize:15, fontWeight:500, color:"#374151", cursor:"pointer" }} onClick={()=>onNav("home")}>Events</span>

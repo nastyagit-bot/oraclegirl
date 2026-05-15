@@ -17,22 +17,48 @@ export default function HomePage({ onNav, setSelectedEvent, events }) {
 
   return (
     <div>
-      <section style={{ position: "relative", minHeight: 520, display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, background: CARD_GRADIENT }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.5) 100%)" }} />
+      <section style={{ position: "relative", minHeight: "min(92vh, 640px)", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+        <img
+          src="/images/home-hero.png"
+          alt=""
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 30%" }}
+        />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.12) 0%, rgba(0,0,0,0.45) 100%)" }} />
         <div style={{ position: "relative", zIndex: 1, textAlign: "center", color: "#fff", padding: "48px 24px", maxWidth: 720 }}>
-          <h1 style={{ fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 500, lineHeight: 1.12, marginBottom: 20, letterSpacing: "-0.02em" }}>
+          <h1 style={{ fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 500, lineHeight: 1.15, marginBottom: 20, letterSpacing: "-0.02em", textShadow: "0 2px 24px rgba(0,0,0,0.3)" }}>
             Embodying more<br />love on this planet
           </h1>
-          <p style={{ fontSize: 18, lineHeight: 1.6, opacity: 0.95, marginBottom: 32 }}>
-            The future is positive. Dream. Rebuild your societies. Purify yourself and all beings.
+          <p style={{ fontSize: "clamp(16px, 2.5vw, 18px)", lineHeight: 1.6, marginBottom: 36, fontWeight: 400, textShadow: "0 1px 12px rgba(0,0,0,0.25)" }}>
+            The future is positive. Dream. Rebuild your societies.<br />Purify yourself and all beings.
           </p>
-          <button type="button" onClick={() => onNav("start-here")} style={{ background: C.magenta, color: "#fff", borderRadius: 30, padding: "14px 36px", fontSize: 16, fontWeight: 500 }}>
-            Start here
-          </button>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 14, justifyContent: "center", alignItems: "center" }}>
+            <button
+              type="button"
+              onClick={() => onNav("start-here")}
+              style={{ background: C.magenta, color: "#fff", borderRadius: 999, padding: "14px 32px", fontSize: 16, fontWeight: 500, minWidth: 140 }}
+            >
+              Start here
+            </button>
+            <button
+              type="button"
+              onClick={() => document.getElementById("about-oracle-girl")?.scrollIntoView({ behavior: "smooth" })}
+              style={{
+                background: "transparent",
+                color: "#fff",
+                borderRadius: 999,
+                padding: "13px 28px",
+                fontSize: 16,
+                fontWeight: 500,
+                border: "1.5px solid rgba(255,255,255,0.9)",
+                minWidth: 180,
+              }}
+            >
+              About Oracle Girl
+            </button>
+          </div>
         </div>
       </section>
-      <section style={{ padding: "72px 24px", maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
+      <section id="about-oracle-girl" style={{ padding: "72px 24px", maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
         <p style={{ fontSize: 12, fontWeight: 500, letterSpacing: "0.12em", color: C.grayText, marginBottom: 12 }}>ABOUT ORACLE GIRL</p>
         <h2 style={{ fontSize: 28, fontWeight: 500, color: C.navy, marginBottom: 16, letterSpacing: "-0.01em" }}>Amplifying positive change, together</h2>
         <p style={{ fontSize: 16, lineHeight: 1.7, color: "#374151", marginBottom: 16 }}>
