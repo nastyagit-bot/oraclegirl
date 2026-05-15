@@ -107,16 +107,24 @@ const GRADIENT_CARDS = [
   { id: 4, title: "Apr 2024 SIR8: Initiation of natur",    pct: 75, duration: "95 min", gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)" },
 ];
 
+const PURIFICATION_FIVE = [
+  { id: 301, name: "My mother", focus: "healing" },
+  { id: 302, name: "Work stress", focus: "clarity and peace" },
+  { id: 303, name: "Sister", focus: "support" },
+  { id: 304, name: "Friend", focus: "peace" },
+  { id: 305, name: "Partner", focus: "trust" },
+];
+
 const MY_EVENTS_DATA = [
-  { id: 1, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 10, 2026", archived: false, signUps: 2, includeCount: 1, purificationEntries: [{ id: 101, name: "My mother", focus: "healing" }] },
-  { id: 2, title: "Event title", type: "Reawaken", typeColor: "#7C3AED", recurring: true, pct: 0, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 12, 2026", archived: false, signUps: 0, includeCount: 0, purificationEntries: [] },
-  { id: 3, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 8, 2026", archived: false, signUps: 5, includeCount: 5, purificationEntries: [] },
-  { id: 4, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 7, 2026", archived: false, signUps: 2, includeCount: 2, purificationEntries: [{ id: 401, name: "Partner", focus: "trust" }] },
-  { id: 5, title: "Event title", type: "Reawaken", typeColor: "#7C3AED", recurring: true, pct: 0, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 6, 2026", archived: false, signUps: 0, includeCount: 2, purificationEntries: [{ id: 501, name: "Friend", focus: "peace" }] },
-  { id: 6, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 5, 2026", archived: false, signUps: 0, includeCount: 1, purificationEntries: [] },
-  { id: 7, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 4, 2026", archived: false, signUps: 2, includeCount: 1, purificationEntries: [] },
-  { id: 8, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 3, 2026", archived: false, signUps: 0, includeCount: 0, purificationEntries: [] },
-  { id: 9, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 2, 2026", archived: false, signUps: 5, includeCount: 5, purificationEntries: [] },
+  { id: 1, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 10, 2026", archived: false, signUps: 2, purificationEntries: [{ id: 101, name: "My mother", focus: "healing" }, { id: 102, name: "Work stress", focus: "clarity and peace" }] },
+  { id: 2, title: "Event title", type: "Reawaken", typeColor: "#7C3AED", recurring: false, pct: 0, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 12, 2026", archived: false, signUps: 0, purificationEntries: [] },
+  { id: 3, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 8, 2026", archived: false, signUps: 5, purificationEntries: PURIFICATION_FIVE },
+  { id: 4, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 7, 2026", archived: false, signUps: 2, purificationEntries: [{ id: 401, name: "Partner", focus: "trust" }, { id: 402, name: "Work stress", focus: "clarity and peace" }] },
+  { id: 5, title: "Event title", type: "Reawaken", typeColor: "#7C3AED", recurring: false, pct: 0, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 6, 2026", archived: false, signUps: 0, purificationEntries: [{ id: 501, name: "Friend", focus: "peace" }, { id: 502, name: "Colleague", focus: "harmony" }] },
+  { id: 6, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 5, 2026", archived: false, signUps: 0, purificationEntries: [{ id: 601, name: "My cat", focus: "vitality" }] },
+  { id: 7, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 4, 2026", archived: false, signUps: 2, purificationEntries: [{ id: 701, name: "Brother", focus: "strength" }, { id: 702, name: "Friend", focus: "peace" }] },
+  { id: 8, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 3, 2026", archived: false, signUps: 0, purificationEntries: [] },
+  { id: 9, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 2, 2026", archived: false, signUps: 5, purificationEntries: PURIFICATION_FIVE.map((e, i) => ({ ...e, id: 901 + i })) },
 ];
 
 const SUBSCRIPTIONS_DATA = [
@@ -708,8 +716,9 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
       myEvents.map((e) => {
         if (e.id !== eventId) return e;
         const purificationEntries = (e.purificationEntries || []).filter((p) => p.id !== entryId);
-        const includeCount = Math.max(0, (e.includeCount ?? purificationEntries.length) - 1);
-        return { ...e, purificationEntries, includeCount };
+        const signUps =
+          (e.signUps || 0) > 0 ? purificationEntries.length : 0;
+        return { ...e, purificationEntries, signUps };
       })
     );
   };
@@ -717,8 +726,8 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
   const eventMeta = { image: EVENTS[0]?.image, description: EVENTS[0]?.fullDescription };
 
   return (
-    <div style={{ background: "#F3F4F6", minHeight: "100vh" }} onClick={() => { setOpenArchiveId(null); setOpenIncludeId(null); }}>
-      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "36px 24px 72px" }}>
+    <div style={{ background: "#F3F4F6", minHeight: "100vh", overflow: "visible" }} onClick={() => { setOpenArchiveId(null); setOpenIncludeId(null); }}>
+      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "36px 24px 72px", overflow: "visible" }}>
         <p style={{ fontSize: 14, color: "#EC4899", fontWeight: 400, marginBottom: 4 }}>Hi {USER_NAME}</p>
         <h1 style={{ fontSize: 30, fontWeight: 500, marginBottom: 10, lineHeight: 1.25, letterSpacing: "-0.02em" }}>
           <span style={{ color: "#1E2B6F" }}>My </span>
@@ -790,7 +799,7 @@ function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 32, alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 32, alignItems: "start", overflow: "visible" }}>
           {active.map((ev) => (
             <AccountEventCard
               key={ev.id}
