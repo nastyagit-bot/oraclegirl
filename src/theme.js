@@ -1,6 +1,12 @@
 export const CARD_GRADIENT =
   "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)";
 
+export const BRAND_GRADIENT =
+  "linear-gradient(90deg, #EC4899 0%, #D946EF 45%, #7C3AED 75%, #5B6BBF 100%)";
+
+export const BTN_GRADIENT =
+  "linear-gradient(90deg, #F472B6 0%, #D946EF 50%, #A855F7 100%)";
+
 export const GLOBAL_CSS = `
   @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,6 +39,7 @@ export const GLOBAL_CSS = `
 `;
 
 export const C = {
+  brandBlue: "#5B6BBF",
   navy: "#1E2B6F",
   orange: "#FF6B35",
   teal: "#00ACC1",
