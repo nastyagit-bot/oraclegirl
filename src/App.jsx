@@ -1,10 +1,15 @@
 import { useState } from "react";
+import HomePage from "./pages/HomePage.jsx";
+import StartHerePage from "./pages/StartHerePage.jsx";
+import ChatFab from "./components/ChatFab.jsx";
+import AccountEventCard from "./components/AccountEventCard.jsx";
+import { GLOBAL_CSS as THEME_CSS } from "./theme.js";
 const CARD_IMG = "data:image/jpeg;base64,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";
 
 /* ─────────────────────────────────────────────
    MOCKED DATA  ←  edit everything in this block
 ───────────────────────────────────────────────*/
-const USER_NAME = "Test";
+const USER_NAME = "Anna";
 
 const EVENTS = [
   {
@@ -103,27 +108,21 @@ const GRADIENT_CARDS = [
 ];
 
 const MY_EVENTS_DATA = [
-  {
-    id: 1,
-    title: "Life in the heart",
-    type: "Reboot Group",
-    recurring: true,
-    pct: 15,
-    duration: "20 min",
-    gradient: "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)",
-    date: "Mar 10, 2026",
-    archived: false,
-    purificationEntries: [
-      { id: 101, name: "My mother", focus: "healing" },
-      { id: 102, name: "Work stress", focus: "clarity and peace" },
-    ],
-  },
+  { id: 1, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 10, 2026", archived: false, signUps: 2, includeCount: 1, purificationEntries: [{ id: 101, name: "My mother", focus: "healing" }] },
+  { id: 2, title: "Event title", type: "Reawaken", typeColor: "#7C3AED", recurring: true, pct: 0, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 12, 2026", archived: false, signUps: 0, includeCount: 0, purificationEntries: [] },
+  { id: 3, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 8, 2026", archived: false, signUps: 5, includeCount: 5, purificationEntries: [] },
+  { id: 4, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 7, 2026", archived: false, signUps: 2, includeCount: 2, purificationEntries: [{ id: 401, name: "Partner", focus: "trust" }] },
+  { id: 5, title: "Event title", type: "Reawaken", typeColor: "#7C3AED", recurring: true, pct: 0, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 6, 2026", archived: false, signUps: 0, includeCount: 2, purificationEntries: [{ id: 501, name: "Friend", focus: "peace" }] },
+  { id: 6, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 5, 2026", archived: false, signUps: 0, includeCount: 1, purificationEntries: [] },
+  { id: 7, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 4, 2026", archived: false, signUps: 2, includeCount: 1, purificationEntries: [] },
+  { id: 8, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 3, 2026", archived: false, signUps: 0, includeCount: 0, purificationEntries: [] },
+  { id: 9, title: "Life in the heart", type: "Reboot Group", typeColor: "#FF6B35", recurring: true, pct: 15, duration: "20 min", gradient: CARD_GRADIENT, date: "Mar 2, 2026", archived: false, signUps: 5, includeCount: 5, purificationEntries: [] },
 ];
 
 const SUBSCRIPTIONS_DATA = [
-  { id: 1, name: "Reboot Group", status: "active", for: "Myself", schedule: "Every Wednesday & Saturday", started: "Sep 12, 2025", events: 24,  donation: "$60/month", next: "Mar 5, 2026" },
-  { id: 2, name: "Reboot Group", status: "active", for: "My cat",  schedule: "Every Wednesday & Saturday", started: "Sep 12, 2025", events: 24,  donation: "$60/month", next: "Mar 5, 2026" },
-  { id: 3, name: "Reboot Group", status: "paused", for: "My cat",  schedule: "Every Wednesday & Saturday", started: "June 11, 2025", events: 224, donation: "$10/event", next: "Paused" },
+  { id: 1, name: "Reboot Group", status: "active", for: "Myself", schedule: "Every Wednesday & Saturday", started: "Sep 12, 2025", events: 24,  donation: "$60/event", next: "Mar 5, 2026" },
+  { id: 2, name: "Reboot Group", status: "active", for: "My cat",  schedule: "Every Wednesday & Saturday", started: "Sep 12, 2025", events: 24,  donation: "$60/event", next: "Mar 5, 2026" },
+  { id: 3, name: "Reboot Group", status: "pending", for: "My cat",  schedule: "Every Wednesday & Saturday", started: "June 11, 2025", events: 224, donation: "$10/event", next: "Donation pending" },
 ];
 /* ─────────────────────────────────────────────
    END MOCKED DATA
@@ -132,14 +131,7 @@ const SUBSCRIPTIONS_DATA = [
 // The branded card gradient — matches the uploaded screenshot exactly
 const CARD_GRADIENT = "linear-gradient(135deg, #FF9A3C 0%, #FFD0A0 18%, #C084FC 38%, #E040FB 55%, #9333EA 68%, #00D4FF 82%, #06B6D4 100%)";
 
-const GLOBAL_CSS = `
-  @import url('https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { font-family: 'Figtree', sans-serif; background: #fff; color: #111827; }
-  button { font-family: 'Figtree', sans-serif; cursor: pointer; border: none; background: none; outline: none; }
-  input, select { font-family: 'Figtree', sans-serif; outline: none; }
-`;
-
+const GLOBAL_CSS = THEME_CSS;
 const C = {
   navy:       "#1E2B6F",
   orange:     "#FF6B35",
@@ -174,10 +166,13 @@ function Nav({ onNav, menuOpen, setMenuOpen }) {
           </svg>
           <span style={{ fontWeight:700, fontSize:17, color:"#111827", letterSpacing:"-0.3px" }}>oracle girl</span>
         </div>
-        <div style={{ display:"flex", alignItems:"center", gap:36 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:32 }}>
           <span style={{ fontSize:15, fontWeight:500, color:"#374151", cursor:"pointer" }} onClick={()=>onNav("home")}>Events</span>
-          <span style={{ fontSize:15, fontWeight:500, color:"#374151", cursor:"pointer" }}>Immmediate Assistance</span>
+          <span style={{ fontSize:15, fontWeight:500, color:"#374151", cursor:"pointer" }}>Immediate Assistance</span>
           <span style={{ fontSize:15, fontWeight:500, color:"#374151", cursor:"pointer" }}>Top-Up</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <div style={{ display:"flex", alignItems:"center", gap:16 }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#374151" strokeWidth="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         </div>
         <div style={{ position:"relative" }}>
@@ -204,42 +199,6 @@ function Nav({ onNav, menuOpen, setMenuOpen }) {
         </div>
       </div>
     </nav>
-  );
-}
-
-/* ── HOME ── */
-function HomeScreen({ onNav, setSelectedEvent }) {
-  return (
-    <div style={{ background:"#fff" }}>
-      <div style={{ position:"relative", height:420, background:"#0a0a0a", overflow:"hidden" }}>
-        <div style={{ position:"absolute", inset:0, background:CARD_GRADIENT, opacity:0.7 }}/>
-        <div style={{ position:"absolute", inset:0, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", color:"#fff", textAlign:"center", padding:"0 32px" }}>
-          <h1 style={{ fontSize:42, fontWeight:800, lineHeight:1.15, marginBottom:16 }}>Embodying more<br/>love on this planet</h1>
-          <p style={{ fontSize:18, opacity:0.92, marginBottom:30, maxWidth:500 }}>The future is positive. Dream. Rebuild your societies. Purify yourself and all beings.</p>
-          <button style={{ background:C.magenta, color:"#fff", borderRadius:30, padding:"13px 32px", fontSize:16, fontWeight:600 }}>Start here</button>
-        </div>
-      </div>
-      <div style={{ maxWidth:1120, margin:"0 auto", padding:"52px 24px 64px" }}>
-        <h2 style={{ fontSize:26, fontWeight:700, color:C.navy, textAlign:"center", marginBottom:36 }}>Upcoming events</h2>
-        <div style={{ display:"grid", gridTemplateColumns:"repeat(4,1fr)", gap:24 }}>
-          {EVENTS.map(ev=>(
-            <div key={ev.id} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, overflow:"hidden", cursor:"pointer", boxShadow:"0 1px 4px rgba(0,0,0,.06)" }} onClick={()=>{ setSelectedEvent(ev); onNav("event-detail"); }}>
-              <div style={{ height:180, background:CARD_GRADIENT, display:"block" }}/>
-              <div style={{ display:"flex", gap:12, padding:"14px" }}>
-                <div style={{ flexShrink:0, textAlign:"center", minWidth:36 }}>
-                  <div style={{ fontSize:11, fontWeight:700, color:C.navy, textTransform:"uppercase", lineHeight:1 }}>{ev.dateMonth}</div>
-                  <div style={{ fontSize:24, fontWeight:800, color:C.navy, lineHeight:1.1 }}>{ev.dateDay}</div>
-                </div>
-                <div>
-                  <div style={{ fontWeight:700, fontSize:15, color:"#111827", marginBottom:4, lineHeight:1.3 }}>{ev.title}</div>
-                  <div style={{ fontSize:13, color:C.grayText, lineHeight:1.5 }}>{ev.description}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -744,358 +703,134 @@ function ConfirmationScreen({ event, onNav }) {
 /* ── PERSONAL ACCOUNT ── */
 function AccountScreen({ onNav, myEvents, setMyEvents, setWatchEvent }) {
   const [tab, setTab] = useState("All my events");
-  const tabs = ["All my events","Upcoming","Reboot group","Retreats","Gifts"];
-  const active = myEvents.filter(e=>!e.archived);
-  const archiveEvent = id => setMyEvents(myEvents.map(e=>e.id===id?{...e,archived:true}:e));
+  const tabs = ["All my events", "Upcoming", "Reboot group", "Retreats", "Gifts"];
+  const active = myEvents.filter((e) => !e.archived);
+  const archiveEvent = (id) => setMyEvents(myEvents.map((e) => (e.id === id ? { ...e, archived: true } : e)));
 
   const [openArchiveId, setOpenArchiveId] = useState(null);
   const [openIncludeId, setOpenIncludeId] = useState(null);
   const [archiveConfirmId, setArchiveConfirmId] = useState(null);
 
   const excludePurificationEntry = (eventId, entryId) => {
-    setMyEvents(myEvents.map(e => {
-      if (e.id !== eventId) return e;
-      const purificationEntries = (e.purificationEntries || []).filter(p => p.id !== entryId);
-      return { ...e, purificationEntries };
-    }));
+    setMyEvents(
+      myEvents.map((e) => {
+        if (e.id !== eventId) return e;
+        const purificationEntries = (e.purificationEntries || []).filter((p) => p.id !== entryId);
+        const includeCount = Math.max(0, (e.includeCount ?? purificationEntries.length) - 1);
+        return { ...e, purificationEntries, includeCount };
+      })
+    );
   };
 
-  return (
-    <div
-      style={{ background:C.grayBg, minHeight:"100vh" }}
-      onClick={() => { setOpenArchiveId(null); setOpenIncludeId(null); }}
-    >
-      <div style={{ maxWidth:800, margin:"0 auto", padding:"40px 24px 64px" }}>
-        <p style={{ fontSize:14, color:C.pink, fontWeight:500, marginBottom:2 }}>Hi {USER_NAME}</p>
-        <h1 style={{ fontSize:28, fontWeight:800, marginBottom:8 }}>
-          <span style={{ color:C.navy }}>My </span><span style={{ color:C.orange }}>purif</span><span style={{ color:C.teal }}>ication</span><span style={{ color:C.navy }}> space</span>
-        </h1>
-        <p style={{ fontSize:14, color:C.grayText, marginBottom:28, lineHeight:1.6 }}>A dedicated place for your specific focus and all your sign-ups, where you stay connected to your purifications and deepen your journey.</p>
+  const eventMeta = { image: EVENTS[0]?.image, description: EVENTS[0]?.fullDescription };
 
-        <div style={{ background:C.pinkBg, border:`1px solid ${C.pinkBorder}`, borderRadius:12, padding:"18px 20px", marginBottom:36, display:"flex", justifyContent:"space-between", alignItems:"flex-start" }}>
-          <div>
-            <div style={{ display:"flex", alignItems:"center", gap:6, fontWeight:600, fontSize:14, color:"#374151", marginBottom:4 }}>
+  return (
+    <div style={{ background: "#F3F4F6", minHeight: "100vh" }} onClick={() => { setOpenArchiveId(null); setOpenIncludeId(null); }}>
+      <div style={{ maxWidth: 1140, margin: "0 auto", padding: "36px 24px 72px" }}>
+        <p style={{ fontSize: 14, color: "#EC4899", fontWeight: 400, marginBottom: 4 }}>Hi {USER_NAME}</p>
+        <h1 style={{ fontSize: 30, fontWeight: 500, marginBottom: 10, lineHeight: 1.25, letterSpacing: "-0.02em" }}>
+          <span style={{ color: "#1E2B6F" }}>My </span>
+          <span style={{ color: "#FF6B35" }}>purif</span>
+          <span style={{ color: "#00ACC1" }}>ication</span>
+          <span style={{ color: "#1E2B6F" }}> space</span>
+        </h1>
+        <p style={{ fontSize: 14, color: "#6B7280", marginBottom: 28, lineHeight: 1.6, fontWeight: 400, maxWidth: 640 }}>
+          A dedicated place for your specific focus and all your sign-ups, where you stay connected to your purifications and deepen your journey.
+        </p>
+
+        <div style={{ background: "#FDF2F8", border: "1px solid #FBCFE8", borderRadius: 12, padding: "16px 18px", marginBottom: 32, display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 500, fontSize: 14, color: "#374151", marginBottom: 6 }}>
               My Specific Focus
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.75"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
             </div>
-            <p style={{ fontSize:13, color:C.grayText, marginBottom:10 }}>Name what needs to shift – clearly and simply.</p>
-            <div style={{ background:"#F3E8FF", borderRadius:6, padding:"5px 12px", fontSize:13, color:"#374151", display:"inline-block" }}>area of greatest need</div>
+            <p style={{ fontSize: 13, color: "#6B7280", marginBottom: 10, fontWeight: 400 }}>Name what needs to shift – clearly and simply.</p>
+            <input readOnly value="Area of greatest need" placeholder="Area of greatest need" style={{ width: "100%", maxWidth: 380, padding: "10px 12px", border: "1px solid #E5E7EB", borderRadius: 8, fontSize: 14, background: "#fff", color: "#9CA3AF", fontWeight: 400 }} />
           </div>
-          <button style={{ color:C.grayText }}>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          <button type="button" style={{ color: "#9CA3AF", padding: 4 }} aria-label="Edit focus">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           </button>
         </div>
 
-        <div style={{ marginBottom:36 }}>
-          <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16 }}>
-            <h2 style={{ fontWeight:700, fontSize:17, color:C.navy }}>Continue where you left off</h2>
-            <span style={{ fontSize:14, color:C.grayText, cursor:"pointer" }}>View all</span>
+        <section style={{ marginBottom: 32 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
+            <h2 style={{ fontWeight: 500, fontSize: 16, color: "#1E2B6F" }}>Continue where you left off</h2>
+            <button type="button" style={{ fontSize: 14, color: "#6B7280", fontWeight: 400 }}>View all</button>
           </div>
-          <div style={{ display:"flex", gap:16, overflowX:"auto", paddingBottom:4 }}>
-            {GRADIENT_CARDS.map((card,i)=>(
-              <div key={i} style={{ minWidth:220, background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:10, overflow:"hidden", cursor:"pointer", flexShrink:0 }} onClick={()=>{ setWatchEvent({...card, image:EVENTS[0].image, date:"Mar 10, 2026", description:EVENTS[0].fullDescription}); onNav("watch"); }}>
-                <div style={{ height:110, background:card.gradient }}/>
-                <div style={{ padding:"10px 12px 12px" }}>
-                  <div style={{ fontWeight:600, fontSize:13, color:"#111827", marginBottom:6, lineHeight:1.3 }}>{card.title}</div>
-                  <div style={{ display:"flex", justifyContent:"space-between", fontSize:12, marginBottom:4 }}>
-                    <span style={{ color:C.teal, fontWeight:600 }}>{card.pct}% complete</span>
-                    <span style={{ color:C.grayText }}>{card.duration}</span>
+          <div style={{ display: "flex", gap: 14, overflowX: "auto", paddingBottom: 6 }}>
+            {GRADIENT_CARDS.map((card, i) => (
+              <div key={i} style={{ minWidth: 210, background: "#fff", border: "1px solid #E5E7EB", borderRadius: 12, overflow: "hidden", flexShrink: 0, cursor: "pointer" }} onClick={() => { setWatchEvent({ ...card, ...eventMeta, date: "Mar 10, 2026" }); onNav("watch"); }}>
+                <div style={{ height: 100, background: card.gradient }} />
+                <div style={{ padding: "10px 12px 12px" }}>
+                  <div style={{ fontWeight: 500, fontSize: 13, color: "#111827", marginBottom: 6, lineHeight: 1.35 }}>{card.title}</div>
+                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 6, fontWeight: 400 }}>
+                    <span style={{ color: "#00ACC1" }}>{card.pct}% complete</span>
+                    <span style={{ color: "#6B7280" }}>{card.duration}</span>
                   </div>
-                  <div style={{ height:3, background:"#E5E7EB", borderRadius:2 }}>
-                    <div style={{ width:`${card.pct}%`, height:"100%", background:C.teal, borderRadius:2 }}/>
+                  <div style={{ height: 2, background: "#E5E7EB", borderRadius: 2 }}>
+                    <div style={{ width: `${card.pct}%`, height: "100%", background: "#00ACC1", borderRadius: 2 }} />
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div style={{ display:"flex", borderBottom:`1px solid ${C.grayBorder}`, marginBottom:20 }}>
-          {tabs.map(t=>(
-            <button key={t} style={{ padding:"10px 18px", fontSize:14, fontWeight:tab===t?700:400, color:tab===t?C.navy:C.grayText, borderBottom:tab===t?`2.5px solid ${C.orange}`:"2.5px solid transparent", marginBottom:-1, background:"none", border:"none", borderBottomStyle:"solid", borderBottomWidth:"2.5px", borderBottomColor:tab===t?C.orange:"transparent" }} onClick={()=>setTab(t)}>{t}</button>
+        <div style={{ display: "flex", borderBottom: "1px solid #E5E7EB", marginBottom: 18, gap: 4 }}>
+          {tabs.map((t) => (
+            <button key={t} type="button" style={{ padding: "10px 16px", fontSize: 14, fontWeight: tab === t ? 500 : 400, color: tab === t ? "#1E2B6F" : "#6B7280", border: "none", background: "none", borderBottom: tab === t ? "2px solid #FF6B35" : "2px solid transparent", marginBottom: -1, cursor: "pointer" }} onClick={() => setTab(t)}>{t}</button>
           ))}
         </div>
 
-        <div style={{ display:"flex", gap:10, alignItems:"center", marginBottom:20, flexWrap:"wrap" }}>
-          <div style={{ border:`1px solid ${C.grayBorder}`, borderRadius:8, padding:"8px 12px", display:"flex", alignItems:"center", gap:6 }}>
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <span style={{ fontSize:13, color:"#9CA3AF" }}>Search events...</span>
-          </div>
-          <select style={{ padding:"8px 10px", border:`1px solid ${C.grayBorder}`, borderRadius:8, fontSize:13, background:"#fff", color:"#374151" }}><option>⇄ Type</option></select>
-          <select style={{ padding:"8px 10px", border:`1px solid ${C.grayBorder}`, borderRadius:8, fontSize:13, background:"#fff", color:"#374151" }}><option>Newest first</option></select>
-          <select style={{ padding:"8px 10px", border:`1px solid ${C.grayBorder}`, borderRadius:8, fontSize:13, background:"#fff", color:"#374151" }}><option>Recently joined</option></select>
-          <span style={{ fontSize:13, color:C.grayText }}>50 events</span>
-          <div style={{ marginLeft:"auto", display:"flex", gap:6 }}>
-            <button style={{ padding:"6px 8px", border:`1px solid ${C.grayBorder}`, borderRadius:6, background:"#fff" }}>⊞</button>
-            <button style={{ padding:"6px 8px", border:`1px solid ${C.grayBorder}`, borderRadius:6, background:"#fff" }}>☰</button>
+        <div style={{ border: "1px solid #E5E7EB", borderRadius: 10, padding: "10px 14px", display: "flex", alignItems: "center", gap: 10, marginBottom: 14, background: "#fff" }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" strokeWidth="1.75"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span style={{ fontSize: 14, color: "#9CA3AF", fontWeight: 400 }}>Search events...</span>
+        </div>
+
+        <div style={{ display: "flex", gap: 10, alignItems: "center", marginBottom: 22, flexWrap: "wrap" }}>
+          <select style={{ padding: "8px 12px", border: "1px solid #E5E7EB", borderRadius: 8, fontSize: 13, background: "#fff", color: "#374151", fontWeight: 400 }}><option>Type</option></select>
+          <select style={{ padding: "8px 12px", border: "1px solid #E5E7EB", borderRadius: 8, fontSize: 13, background: "#fff", color: "#374151", fontWeight: 400 }}><option>Newest first</option></select>
+          <select style={{ padding: "8px 12px", border: "1px solid #E5E7EB", borderRadius: 8, fontSize: 13, background: "#fff", color: "#374151", fontWeight: 400 }}><option>Recently joined</option></select>
+          <span style={{ fontSize: 13, color: "#6B7280", fontWeight: 400 }}>50 events</span>
+          <div style={{ marginLeft: "auto", display: "flex", gap: 6 }}>
+            <button type="button" style={{ padding: "6px 10px", border: "1px solid #E5E7EB", borderRadius: 8, background: "#fff", color: "#6B7280", fontSize: 14 }} aria-label="Grid view">⊞</button>
+            <button type="button" style={{ padding: "6px 10px", border: "1px solid #E5E7EB", borderRadius: 8, background: "#fff", color: "#6B7280", fontSize: 14 }} aria-label="List view">☰</button>
           </div>
         </div>
 
-        {active.map(ev => {
-          const purificationEntries = ev.purificationEntries || [];
-          const purificationCount = purificationEntries.length;
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 22 }}>
+          {active.map((ev) => (
+            <AccountEventCard
+              key={ev.id}
+              ev={ev}
+              openArchiveId={openArchiveId}
+              openIncludeId={openIncludeId}
+              setOpenArchiveId={setOpenArchiveId}
+              setOpenIncludeId={setOpenIncludeId}
+              setArchiveConfirmId={setArchiveConfirmId}
+              excludePurificationEntry={excludePurificationEntry}
+              onNav={onNav}
+              setWatchEvent={setWatchEvent}
+              eventMeta={eventMeta}
+            />
+          ))}
+        </div>
 
-          return (
-            <div key={ev.id} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, overflow:"visible", marginBottom:16, position:"relative" }}>
-              <div style={{ position:"relative", height:130, background:ev.gradient||GRADIENT_CARDS[0].gradient, borderTopLeftRadius:12, borderTopRightRadius:12, overflow:"hidden" }}>
-                <div style={{ position:"absolute", top:12, left:12, display:"flex", gap:8 }}>
-                  <span style={{ background:C.orange, color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Reboot Group</span>
-                  {ev.recurring && <span style={{ background:"rgba(0,0,0,.28)", color:"#fff", fontSize:12, fontWeight:600, padding:"3px 10px", borderRadius:20 }}>Recurring</span>}
-                </div>
-
-                <button
-                  style={{
-                    position:"absolute",
-                    top:12,
-                    right:12,
-                    width:28,
-                    height:28,
-                    borderRadius:"50%",
-                    background:"rgba(255,255,255,.18)",
-                    border:`1px solid rgba(255,255,255,.28)`,
-                    color:"#fff",
-                    display:"flex",
-                    alignItems:"center",
-                    justifyContent:"center",
-                    fontSize:14,
-                  }}
-                  onClick={e => {
-                    e.stopPropagation();
-                    setOpenIncludeId(null);
-                    setOpenArchiveId(openArchiveId === ev.id ? null : ev.id);
-                  }}
-                >
-                  ···
-                </button>
-
-                {openArchiveId === ev.id && (
-                  <div
-                    style={{
-                      position:"absolute",
-                      top:48,
-                      right:12,
-                      width:280,
-                      background:"#fff",
-                      border:`1px solid ${C.grayBorder}`,
-                      borderRadius:12,
-                      boxShadow:"0 20px 60px rgba(0,0,0,.16)",
-                      zIndex:200,
-                    }}
-                    onClick={e => e.stopPropagation()}
-                  >
-                    <div style={{ padding:"14px 16px" }}>
-                      <button
-                        style={{ display:"flex", alignItems:"center", gap:8, fontWeight:700, fontSize:14, color:"#374151", cursor:"pointer", width:"100%", justifyContent:"flex-start", marginBottom:10 }}
-                        onClick={() => { setArchiveConfirmId(ev.id); setOpenArchiveId(null); }}
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <polyline points="3 6 5 6 21 6"></polyline>
-                          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                          <path d="M10 11v6"></path>
-                          <path d="M14 11v6"></path>
-                          <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
-                        </svg>
-                        Archive event
-                      </button>
-                      <p style={{ fontSize:13, color:C.grayText, lineHeight:1.6, marginBottom:0 }}>
-                        To cancel or update your subscription, go to{" "}
-                        <span
-                          style={{ color:C.navy, fontWeight:500, cursor:"pointer" }}
-                          onClick={() => { setOpenArchiveId(null); onNav("subscriptions"); }}
-                        >
-                          My Subscription
-                        </span>{" "}
-                        from your Personal account menu.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                <div style={{ position:"absolute", bottom:0, left:0, right:0 }}>
-                  <div style={{ flex:1, height:3, background:"rgba(255,255,255,.25)" }}>
-                    <div style={{ width:`${ev.pct}%`, height:"100%", background:"#fff" }} />
-                  </div>
-                </div>
-                <div style={{ position:"absolute", bottom:6, left:12, fontSize:12, color:"#fff", fontWeight:600 }}>
-                  {ev.pct}% completed
-                </div>
-              </div>
-
-              <div style={{ padding:"14px 16px" }}>
-                <div style={{ fontWeight:700, fontSize:16, color:"#111827", marginBottom:2 }}>{ev.title}</div>
-                <div style={{ fontSize:13, color:C.grayText, marginBottom:14 }}>{ev.duration}</div>
-
-                <div style={{ display:"flex", gap:14, alignItems:"center" }}>
-                  <button
-                    style={{ background:C.magenta, color:"#fff", borderRadius:30, padding:"10px 22px", fontSize:14, fontWeight:600, flex:1, display:"flex", alignItems:"center", justifyContent:"center", gap:6 }}
-                    onClick={()=>{ setWatchEvent({...ev, image:EVENTS[0].image, date:ev.date, description:EVENTS[0].fullDescription}); onNav("watch"); }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M11 5l-6 6h6v8l14-14V5z" opacity="0.0" />
-                      <path d="M10 8H4l6 6v2l14-14-14 14v-8z" opacity="0.0" />
-                      <path d="M7 17V7l10-2v14L7 17z" />
-                    </svg>
-                    Listen now
-                  </button>
-
-                  <button
-                    style={{
-                      width:46,
-                      height:46,
-                      borderRadius:"50%",
-                      border:`1.5px dashed ${C.grayBorder}`,
-                      background:"#fff",
-                      color:C.navy,
-                      display:"flex",
-                      alignItems:"center",
-                      justifyContent:"center",
-                      fontSize:13,
-                      fontWeight:700,
-                      flexShrink:0,
-                    }}
-                    onClick={e => {
-                      e.stopPropagation();
-                      setOpenArchiveId(null);
-                      setOpenIncludeId(openIncludeId === ev.id ? null : ev.id);
-                    }}
-                  >
-                    + {purificationCount}
-                  </button>
-                </div>
-              </div>
-
-              {openIncludeId === ev.id && (
-                <div
-                  style={{
-                    position:"absolute",
-                    right:16,
-                    top:156,
-                    width:300,
-                    background:"#fff",
-                    border:`1px solid ${C.grayBorder}`,
-                    borderRadius:12,
-                    boxShadow:"0 20px 60px rgba(0,0,0,.16)",
-                    zIndex:220,
-                  }}
-                  onClick={e => e.stopPropagation()}
-                >
-                  <div style={{ padding:"14px 16px" }}>
-                    <div style={{ fontSize:14, color:"#374151", fontWeight:700, marginBottom:10 }}>
-                      Included in purification ({purificationCount})
-                    </div>
-                    <div style={{ fontSize:13, fontWeight:700, color:"#374151", marginBottom:10 }}>Myself</div>
-
-                    {purificationEntries.length === 0 ? (
-                      <div style={{ fontSize:13, color:C.grayText }}>Nothing included yet.</div>
-                    ) : (
-                      purificationEntries.map(entry => (
-                        <div
-                          key={entry.id}
-                          style={{
-                            background:"#F9FAFB",
-                            border:`1px solid ${C.grayBorder}`,
-                            borderRadius:10,
-                            padding:"10px 12px",
-                            display:"flex",
-                            alignItems:"flex-start",
-                            justifyContent:"space-between",
-                            gap:10,
-                            marginBottom:10,
-                          }}
-                        >
-                          <div>
-                            <div style={{ fontWeight:600, fontSize:13, color:"#111827", marginBottom:2 }}>{entry.name}</div>
-                            <div style={{ fontSize:12, color:C.grayText, lineHeight:1.3 }}>Focus: {entry.focus}</div>
-                          </div>
-                          <button
-                            style={{
-                              width:26,
-                              height:26,
-                              borderRadius:"50%",
-                              border:`1px solid ${C.grayBorder}`,
-                              color:C.grayText,
-                              background:"#fff",
-                              fontSize:14,
-                              display:"flex",
-                              alignItems:"center",
-                              justifyContent:"center",
-                              cursor:"pointer",
-                              flexShrink:0,
-                            }}
-                            aria-label={`Exclude ${entry.name}`}
-                            onClick={e => {
-                              e.stopPropagation();
-                              excludePurificationEntry(ev.id, entry.id);
-                              setOpenIncludeId(null);
-                            }}
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-        {active.length===0 && (
-          <div style={{ textAlign:"center", padding:"48px 0", color:C.grayText }}>
-            <p style={{ fontSize:16, fontWeight:500 }}>No events here yet.</p>
-            <button style={{ marginTop:16, background:C.magenta, color:"#fff", borderRadius:30, padding:"11px 24px", fontSize:15, fontWeight:600 }} onClick={()=>onNav("home")}>Browse events</button>
+        {active.length === 0 && (
+          <div style={{ textAlign: "center", padding: "48px 0", color: "#6B7280" }}>
+            <p style={{ fontSize: 15, fontWeight: 400 }}>No events here yet.</p>
+            <button type="button" style={{ marginTop: 16, background: "#D946EF", color: "#fff", borderRadius: 30, padding: "11px 24px", fontSize: 14, fontWeight: 500 }} onClick={() => onNav("home")}>Browse events</button>
           </div>
         )}
 
         {archiveConfirmId !== null && (
-          <div
-            style={{
-              position:"fixed",
-              inset:0,
-              background:"rgba(0,0,0,.35)",
-              display:"flex",
-              alignItems:"center",
-              justifyContent:"center",
-              zIndex:999,
-            }}
-            onClick={() => setArchiveConfirmId(null)}
-          >
-            <div
-              style={{
-                width:"100%",
-                maxWidth:480,
-                background:"#fff",
-                borderRadius:16,
-                border:`1px solid ${C.grayBorder}`,
-                padding:"22px 22px 18px",
-                boxShadow:"0 30px 80px rgba(0,0,0,.22)",
-              }}
-              onClick={e => e.stopPropagation()}
-            >
-              <div style={{ display:"flex", alignItems:"center", gap:12, marginBottom:10 }}>
-                <div style={{ width:44, height:44, borderRadius:12, background:C.pinkBg, border:`1px solid ${C.pinkBorder}`, display:"flex", alignItems:"center", justifyContent:"center", color:C.magenta, fontWeight:800 }}>
-                  ⚠️
-                </div>
-                <div>
-                  <div style={{ fontWeight:800, fontSize:18, color:C.navy, marginBottom:2 }}>Archive event?</div>
-                  <div style={{ fontSize:13, color:C.grayText }}>This will remove the event from your purification space.</div>
-                </div>
-              </div>
-
-              <div style={{ display:"flex", gap:12, justifyContent:"flex-end", marginTop:18 }}>
-                <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:30, padding:"11px 18px", fontSize:14, fontWeight:600, color:"#374151" }} onClick={() => setArchiveConfirmId(null)}>
-                  Cancel
-                </button>
-                <button
-                  style={{ border:`1.5px solid ${C.redText}`, borderRadius:30, padding:"11px 18px", fontSize:14, fontWeight:700, color:"#fff", background:C.redText }}
-                  onClick={() => {
-                    archiveEvent(archiveConfirmId);
-                    setArchiveConfirmId(null);
-                  }}
-                >
-                  Archive
-                </button>
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.35)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 999 }} onClick={() => setArchiveConfirmId(null)}>
+            <div style={{ width: "100%", maxWidth: 440, background: "#fff", borderRadius: 16, border: "1px solid #E5E7EB", padding: "22px", boxShadow: "0 24px 64px rgba(0,0,0,0.18)" }} onClick={(e) => e.stopPropagation()}>
+              <div style={{ fontWeight: 500, fontSize: 17, color: "#1E2B6F", marginBottom: 8 }}>Archive event?</div>
+              <p style={{ fontSize: 14, color: "#6B7280", lineHeight: 1.55, marginBottom: 20, fontWeight: 400 }}>This will remove the event from your purification space.</p>
+              <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                <button type="button" style={{ border: "1px solid #E5E7EB", borderRadius: 999, padding: "10px 18px", fontSize: 14, fontWeight: 500, color: "#374151" }} onClick={() => setArchiveConfirmId(null)}>Cancel</button>
+                <button type="button" style={{ border: "none", borderRadius: 999, padding: "10px 18px", fontSize: 14, fontWeight: 500, color: "#fff", background: "#DC2626" }} onClick={() => { archiveEvent(archiveConfirmId); setArchiveConfirmId(null); }}>Archive</button>
               </div>
             </div>
           </div>
@@ -1167,64 +902,110 @@ function ArchivedScreen({ myEvents, setMyEvents, onNav }) {
 function SubscriptionsScreen() {
   const [subs, setSubs] = useState(SUBSCRIPTIONS_DATA);
   const [cancelId, setCancelId] = useState(null);
-  const togglePause = id => setSubs(subs.map(s=>s.id===id?{...s,status:s.status==="active"?"paused":"active"}:s));
 
-  if (cancelId!==null) {
-    const sub = subs.find(s=>s.id===cancelId);
-    return <CancelSubScreen sub={sub} onBack={()=>setCancelId(null)} onConfirm={()=>{ setSubs(subs.filter(s=>s.id!==cancelId)); setCancelId(null); }}/>;
+  if (cancelId !== null) {
+    const sub = subs.find(s => s.id === cancelId);
+    return <CancelSubScreen sub={sub} onBack={() => setCancelId(null)} onConfirm={() => { setSubs(subs.filter(s => s.id !== cancelId)); setCancelId(null); }} />;
   }
 
-  const activeSubs = subs.filter(s=>s.status==="active");
+  const activeSubs = subs.filter(s => s.status === "active");
+
+  const statusBadge = (status) => {
+    if (status === "active") return { bg: C.greenTag, color: C.greenText, label: "Active", icon: "✓" };
+    if (status === "pending") return { bg: C.orangeTag || "#FFF7ED", color: C.orangeText || "#EA580C", label: "Pending", icon: "‖" };
+    return { bg: "#FEF9C3", color: "#92400E", label: "Paused", icon: "⏸" };
+  };
 
   return (
-    <div style={{ maxWidth:820, margin:"0 auto", padding:"40px 24px 64px" }}>
-      <h1 style={{ fontSize:28, fontWeight:800, color:C.navy, marginBottom:4 }}>My subscriptions</h1>
-      <p style={{ color:C.grayText, marginBottom:28 }}>Manage your recurring subscriptions</p>
-      <div style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:16, marginBottom:32 }}>
-        {[["🔄",`${activeSubs.length}`,"Active subscriptions"],["💳",`${activeSubs.length > 0 ? activeSubs.length : "—"} active`,"Monthly total"],["📅","Mar 1","Next donation date"]].map(([icon,val,label])=>(
-          <div key={label} style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:12, padding:"16px 20px", display:"flex", alignItems:"center", gap:14 }}>
-            <span style={{ fontSize:22 }}>{icon}</span>
-            <div><div style={{ fontWeight:700, fontSize:20 }}>{val}</div><div style={{ fontSize:13, color:C.grayText }}>{label}</div></div>
+    <div style={{ background: C.pageBg, minHeight: "100vh" }}>
+      <div style={{ maxWidth: 1120, margin: "0 auto", padding: "40px 24px 80px", display: "grid", gridTemplateColumns: "1fr 300px", gap: 28, alignItems: "start" }}>
+        <div>
+          <h1 style={{ fontSize: 28, fontWeight: 500, color: C.navy, marginBottom: 6, letterSpacing: "-0.01em" }}>My subscriptions</h1>
+          <p style={{ color: C.grayText, marginBottom: 24, fontSize: 15 }}>Manage your recurring subscriptions</p>
+
+          <div style={{ background: C.infoBg, border: `1px solid ${C.infoBorder}`, borderRadius: 12, padding: "14px 16px", marginBottom: 24, display: "flex", gap: 12, alignItems: "flex-start" }}>
+            <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, color: C.infoBlue, fontSize: 18 }}>↻</div>
+            <p style={{ fontSize: 13, color: "#1E40AF", lineHeight: 1.6 }}>
+              Subscriptions cover Reboot Group events only. These recurring donations apply exclusively to Reboot Group events. For other events, donate per event at sign-up.
+            </p>
           </div>
-        ))}
-      </div>
-      <div style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:14, overflow:"hidden", marginBottom:28 }}>
-        <div style={{ padding:"16px 22px", borderBottom:`1px solid ${C.grayBorder}` }}>
-          <h2 style={{ fontWeight:700, fontSize:16 }}>My subscriptions</h2>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
+            <div style={{ background: "#fff", border: `1px solid ${C.grayBorder}`, borderRadius: 12, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 44, height: 44, borderRadius: 10, background: C.infoBg, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, color: C.infoBlue }}>↻</div>
+              <div>
+                <div style={{ fontWeight: 500, fontSize: 22, color: C.navy }}>{activeSubs.length}</div>
+                <div style={{ fontSize: 13, color: C.grayText }}>Active subscriptions</div>
+              </div>
+            </div>
+            <div style={{ background: "#fff", border: `1px solid ${C.grayBorder}`, borderRadius: 12, padding: "18px 20px", display: "flex", alignItems: "center", gap: 14 }}>
+              <div style={{ width: 44, height: 44, borderRadius: 10, background: C.orangeTag || "#FFF7ED", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>📅</div>
+              <div>
+                <div style={{ fontWeight: 500, fontSize: 22, color: C.navy }}>Mar 1</div>
+                <div style={{ fontSize: 13, color: C.grayText }}>Next donation date</div>
+              </div>
+            </div>
+          </div>
+
+          <div style={{ background: "#fff", border: `1px solid ${C.grayBorder}`, borderRadius: 14, overflow: "hidden" }}>
+            <div style={{ padding: "16px 22px", borderBottom: `1px solid ${C.grayBorder}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h2 style={{ fontWeight: 500, fontSize: 16, color: C.navy }}>Reboot Group subscriptions</h2>
+              <button type="button" style={{ background: C.infoBg, color: C.infoBlue, borderRadius: 8, padding: "8px 14px", fontSize: 13, fontWeight: 600 }}>+ New subscription</button>
+            </div>
+            {subs.map((sub, i) => {
+              const badge = statusBadge(sub.status);
+              return (
+                <div key={sub.id} style={{ padding: "20px 22px", borderBottom: i < subs.length - 1 ? `1px solid ${C.grayBorder}` : "none", display: "grid", gridTemplateColumns: "auto 1fr auto", gap: 16, alignItems: "start" }}>
+                  <div style={{ width: 44, height: 44, borderRadius: 10, background: C.grayBg, border: `1px solid ${C.grayBorder}`, display: "flex", alignItems: "center", justifyContent: "center", color: C.grayText, fontSize: 18 }}>↻</div>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6, flexWrap: "wrap" }}>
+                      <span style={{ fontWeight: 500, fontSize: 15, color: "#111827" }}>{sub.name}</span>
+                      <span style={{ background: badge.bg, color: badge.color, fontSize: 12, fontWeight: 600, padding: "3px 10px", borderRadius: 20, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                        {badge.icon} {badge.label}
+                      </span>
+                    </div>
+                    <p style={{ fontSize: 13, color: C.navy, marginBottom: 2 }}>Who is it for: <strong>{sub.for}</strong></p>
+                    <p style={{ fontSize: 13, color: C.grayText, marginBottom: 2 }}>{sub.schedule}</p>
+                    <p style={{ fontSize: 13, color: C.grayText }}>Started {sub.started} · {sub.events} events included</p>
+                  </div>
+                  <div style={{ textAlign: "right", minWidth: 120 }}>
+                    <div style={{ fontWeight: 500, fontSize: 16, color: "#111827", marginBottom: 4 }}>{sub.donation}</div>
+                    <div style={{ fontSize: 12, color: C.grayText, marginBottom: 12 }}>Next: {sub.next}</div>
+                    <div style={{ display: "flex", gap: 16, justifyContent: "flex-end" }}>
+                      <button type="button" style={{ fontSize: 13, fontWeight: 600, color: C.infoBlue }}>Update</button>
+                      <button type="button" style={{ fontSize: 13, fontWeight: 600, color: C.redText }} onClick={() => setCancelId(sub.id)}>Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        {subs.map((sub,i)=>(
-          <div key={sub.id} style={{ padding:"20px 22px", borderBottom:i<subs.length-1?`1px solid ${C.grayBorder}`:"none", display:"flex", justifyContent:"space-between", alignItems:"flex-start", flexWrap:"wrap", gap:16 }}>
-            <div>
-              <div style={{ display:"flex", alignItems:"center", gap:10, marginBottom:4 }}>
-                <span style={{ fontWeight:700, fontSize:15 }}>🔄 {sub.name}</span>
-                <span style={{ background:sub.status==="active"?C.greenTag:"#FEF9C3", color:sub.status==="active"?C.greenText:"#92400E", fontSize:12, fontWeight:600, padding:"2px 10px", borderRadius:20 }}>
-                  {sub.status==="active"?"✓ Active":"⏸ Paused"}
-                </span>
-              </div>
-              <p style={{ fontSize:13, color:C.navy, marginBottom:2 }}>Who is it for: <strong>{sub.for}</strong></p>
-              <p style={{ fontSize:13, color:C.grayText }}>{sub.schedule}</p>
-              <p style={{ fontSize:13, color:C.grayText }}>Started {sub.started} · {sub.events} events included</p>
-            </div>
-            <div style={{ textAlign:"right" }}>
-              <div style={{ fontSize:13, color:C.grayText, marginBottom:10 }}>Next: {sub.status==="paused"?"Paused":sub.next}</div>
-              <div style={{ display:"flex", gap:8 }}>
-                <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:6, padding:"7px 14px", fontSize:13, color:"#374151" }} onClick={()=>togglePause(sub.id)}>{sub.status==="active"?"Pause":"Resume"}</button>
-                <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:6, padding:"7px 14px", fontSize:13, color:"#374151" }}>Update</button>
-                <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:6, padding:"7px 14px", fontSize:13, color:C.redText }} onClick={()=>setCancelId(sub.id)}>Cancel</button>
+
+        <div>
+          <div style={{ background: "#fff", border: `1px solid ${C.grayBorder}`, borderRadius: 14, padding: "22px", marginBottom: 20 }}>
+            <h2 style={{ fontWeight: 500, fontSize: 16, color: C.navy, marginBottom: 16 }}>Donation method</h2>
+            <div style={{ border: `1px solid ${C.grayBorder}`, borderRadius: 10, padding: "14px 16px", marginBottom: 14, display: "flex", gap: 12, alignItems: "center" }}>
+              <div style={{ width: 40, height: 28, borderRadius: 6, background: C.pinkBg, border: `1px solid ${C.pinkBorder}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>💳</div>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 14 }}>Card ending in 4242</div>
+                <div style={{ fontSize: 12, color: C.grayText }}>Expires 12/2028</div>
               </div>
             </div>
+            <p style={{ fontSize: 12, color: C.grayText, lineHeight: 1.55, marginBottom: 16, display: "flex", gap: 6, alignItems: "flex-start" }}>
+              <span style={{ color: C.greenText }}>🔒</span>
+              Secure payment via Stripe · Encrypted card processing · We never store your full card number.
+            </p>
+            <button type="button" style={{ width: "100%", background: C.infoBg, color: C.infoBlue, borderRadius: 8, padding: "11px", fontSize: 14, fontWeight: 600 }}>Change ↗</button>
           </div>
-        ))}
-        {subs.length===0 && <div style={{ padding:"36px", textAlign:"center", color:C.grayText }}><p style={{ fontWeight:500 }}>All subscriptions cancelled.</p></div>}
-      </div>
-      <div style={{ background:"#fff", border:`1px solid ${C.grayBorder}`, borderRadius:14, padding:"22px" }}>
-        <h2 style={{ fontWeight:700, fontSize:16, marginBottom:16 }}>Donation method</h2>
-        <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", background:C.grayBg, borderRadius:10, padding:"14px 18px" }}>
-          <div style={{ display:"flex", alignItems:"center", gap:12 }}>
-            <span style={{ fontSize:22 }}>💳</span>
-            <div><div style={{ fontWeight:600, fontSize:15 }}>Card ending in 4242</div><div style={{ fontSize:13, color:C.grayText }}>Expires 12/2028</div></div>
+
+          <div style={{ background: "#fff", border: `1px solid ${C.grayBorder}`, borderRadius: 14, padding: "22px" }}>
+            <h2 style={{ fontWeight: 500, fontSize: 16, color: C.navy, marginBottom: 10 }}>Need help?</h2>
+            <p style={{ fontSize: 14, color: C.grayText, lineHeight: 1.6, marginBottom: 16 }}>
+              Pause, refund or change a subscription — Oracle Girl Team responds within 24h.
+            </p>
+            <button type="button" style={{ width: "100%", border: `1.5px solid ${C.navy}`, borderRadius: 8, padding: "11px", fontSize: 14, fontWeight: 600, color: C.navy, background: "#fff" }}>Contact support</button>
           </div>
-          <button style={{ border:`1px solid ${C.grayBorder}`, borderRadius:8, padding:"8px 14px", fontSize:13, color:"#374151" }}>↗ Change</button>
         </div>
       </div>
     </div>
@@ -1276,18 +1057,20 @@ export default function App() {
 
   return (
     <>
-      <style>{GLOBAL_CSS}</style>
+      <style>{GLOBAL_CSS}{THEME_CSS.includes("fade-in") ? "" : ""}</style>
       <div style={{ minHeight:"100vh", background:"#fff" }} onClick={()=>menuOpen&&setMenuOpen(false)}>
         <Nav onNav={onNav} menuOpen={menuOpen} setMenuOpen={setMenuOpen}/>
-        {page==="home"          && <HomeScreen onNav={onNav} setSelectedEvent={setSelectedEvent}/>}
+        {page==="home"          && <HomePage onNav={onNav} setSelectedEvent={setSelectedEvent} events={EVENTS}/>}
+        {page==="start-here"    && <StartHerePage onNav={onNav} setSelectedEvent={setSelectedEvent} events={EVENTS}/>}
         {page==="event-detail"  && <EventDetailScreen event={selectedEvent} onNav={onNav} setSignupEvent={setSignupEvent}/>}
         {page==="signup"        && <SignupScreen event={signupEvent||selectedEvent} onNav={onNav}/>}
         {page==="confirmation"  && <ConfirmationScreen event={signupEvent||selectedEvent} onNav={onNav}/>}
         {page==="account"       && <AccountScreen onNav={onNav} myEvents={myEvents} setMyEvents={setMyEvents} setWatchEvent={setWatchEvent}/>}
         {page==="watch"         && <WatchScreen event={watchEvent} onNav={onNav}/>}
         {page==="archived"      && <ArchivedScreen myEvents={myEvents} setMyEvents={setMyEvents} onNav={onNav}/>}
-        {page==="subscriptions" && <SubscriptionsScreen onNav={onNav}/>}
+        {page==="subscriptions" && <SubscriptionsScreen />}
       </div>
+        <ChatFab />
     </>
   );
 }
